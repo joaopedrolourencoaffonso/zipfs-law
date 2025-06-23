@@ -6,6 +6,9 @@
     <title>Zipfs Law</title>
 
     <style>
+        h1 {
+            text-align: center;
+        }
         /* Center the table on the page */
         table {
             margin: 0 auto;               /* Horizontally centers the table */
@@ -28,33 +31,69 @@
         th {
             background-color: #f4f4f4;    /* Light gray background for the header */
         }
+
+        /* CSS code from above */
+        .container {
+            display: flex;               
+            justify-content: space-between;
+        }
+
+        .container div {
+            flex: 1;                     
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <label for="userInput">Total Number of Elements: </label>
-    <input type="number" id="populacaoTotal">
-    <br>
-    <br>
-    <label for="userInput">Number of Positions in the Ranking: </label>
-    <input type="number" id="numeroDePosicoes">
-    <button onclick="compute()">Compute</button>
-    <button onclick="cleanTotalPopulation()">Clean</button>
-    <br>
-    <br>
+    <h1>Zipf's law</h1>
+    <p>To learn more about Zipfs law <a href="https://en.wikipedia.org/wiki/Zipf's_law">see here</a></p>
+    <div class="container">
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="userInput">Total Number of Elements: </label>
+            <input type="number" id="populacaoTotal">
+            <br>
+            <br>
+            <label for="userInput">Number of Positions in the Ranking: </label>
+            <input type="number" id="numeroDePosicoes">
+            <button onclick="computeTotalPopulation()">Compute</button>
+            <button onclick="cleanTotalPopulation()">Clean</button>
+            <br>
+            <br>
+        </div>
+        
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="userInput">Desired position: </label>
+            <input type="number" id="position">
+            <br>
+            <br>
+            
+            <label for="userInput">Number of elements in the position: </label>
+            <input type="number" id="ammountPosition">
+            <br>
+            <br>
+            <label for="userInput">Number of Positions in the Ranking: </label>
+            <input type="number" id="numberOfPositions">
+            <button onclick="computePosition()">Compute</button>
+            <button onclick="cleanPosition()">Clean</button>
+            <br>
+            <br>
+        </div>
+    </div>
 
+    <hr>
     <div id="tableTotalPopulation">
-
     </div>
 
 <script>
-    function compute() {
+    function computeTotalPopulation() {
         const populacaoTotal = document.getElementById('populacaoTotal').value;
         const numeroDePosicoes = document.getElementById('numeroDePosicoes').value;
         if (populacaoTotal == "" || numeroDePosicoes == "") {
-            console.log("Erro");
-        } else {
-            console.log(populacaoTotal, numeroDePosicoes);
+            window.alert("Error: Empty fields in the form");
         }
 
         let i = 1;
@@ -69,6 +108,30 @@
         const primeiroLugar = Math.ceil(populacaoTotal/total);
         while (i <= numeroDePosicoes) {
             temp = Math.ceil((1/i)*primeiroLugar); 
+            ranking.push(temp);
+            i++;
+        }
+        console.log("Ranking: ", ranking);
+
+        writeTable(ranking);
+    }
+
+    function computePosition() {
+        const position = document.getElementById('position').value;
+        const ammountPosition = document.getElementById('ammountPosition').value;
+        const numberOfPositions = document.getElementById('numberOfPositions').value;
+
+        if (position == "" || ammountPosition == "" || numberOfPositions == "") {
+            window.alert("Error: Empty fields in the form");
+        }
+
+        let firstElement = ammountPosition * position;
+        const ranking = [];
+
+        i = 1;
+        let temp;
+        while (i <= numberOfPositions) {
+            temp = Math.ceil((1/i)*firstElement); 
             ranking.push(temp);
             i++;
         }
