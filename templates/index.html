@@ -4,19 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zipfs Law</title>
+
+    <style>
+        /* Center the table on the page */
+        table {
+            margin: 0 auto;               /* Horizontally centers the table */
+            border-collapse: collapse;    /* Optional: removes space between table cells */
+            width: 50%;                   /* Optional: adjust the table width */
+        }
+
+        /* Center the text within the table cells */
+        table, th, td {
+            text-align: center;           /* Centers text horizontally */
+        }
+
+        /* Optional: add some padding and borders for visual clarity */
+        th, td {
+            padding: 10px;                /* Adds space inside cells */
+            border: 1px solid #ddd;       /* Light border for the cells */
+        }
+
+        /* Optional: Add a background color to the header */
+        th {
+            background-color: #f4f4f4;    /* Light gray background for the header */
+        }
+    </style>
 </head>
 <body>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <label for="userInput">População Total: </label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="userInput">Total Number of Elements: </label>
     <input type="number" id="populacaoTotal">
     <br>
     <br>
-    <label for="userInput">Número de Posiçoes no ranking: </label>
+    <label for="userInput">Number of Positions in the Ranking: </label>
     <input type="number" id="numeroDePosicoes">
-    <button onclick="logInput()">Log Input</button>
+    <button onclick="compute()">Compute</button>
+    <button onclick="cleanTotalPopulation()">Clean</button>
+    <br>
+    <br>
+
+    <div id="tableTotalPopulation">
+
+    </div>
 
 <script>
-    function logInput() {
+    function compute() {
         const populacaoTotal = document.getElementById('populacaoTotal').value;
         const numeroDePosicoes = document.getElementById('numeroDePosicoes').value;
         if (populacaoTotal == "" || numeroDePosicoes == "") {
@@ -41,7 +73,52 @@
             i++;
         }
         console.log("Ranking: ", ranking);
+
+        writeTable(ranking);
     }
+
+    function writeTable(data) {
+        // Get the div with id 'table'
+        const tableDiv = document.getElementById('tableTotalPopulation');
+
+        // Create the table and its contents
+        const table = document.createElement('table');
+        const header = table.createTHead();
+        const headerRow = header.insertRow();
+        
+        // Create the headers for the table
+        const rankingHeader = headerRow.insertCell(0);
+        rankingHeader.textContent = 'Ranking';
+        const amountHeader = headerRow.insertCell(1);
+        amountHeader.textContent = 'Amount';
+
+        // Create a body for the table
+        const tbody = table.createTBody();
+
+        // Loop through the data and insert rows into the table
+        i = 0;
+        data.forEach(item => {
+            const row = tbody.insertRow();
+            const rankingCell = row.insertCell(0);
+            rankingCell.textContent = i + 1;
+            const amountCell = row.insertCell(1);
+            amountCell.textContent = data[i];
+            i++;
+        });
+
+        // Clear the existing content of the div and add the table
+        tableDiv.innerHTML = '';  // Clear the current content
+        tableDiv.appendChild(table);  // Add the new table
+    }
+
+    function cleanTotalPopulation(){
+        // Get the div with id 'table'
+        const tableDiv = document.getElementById('tableTotalPopulation');
+
+        // Clear the contents of the div
+        tableDiv.innerHTML = '';  // Removes all child elements inside the div
+    }
+
 </script>
 </body>
 </html>
