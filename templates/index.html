@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zipfs Law</title>
+</head>
+<body>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label for="userInput">População Total: </label>
+    <input type="number" id="populacaoTotal">
+    <br>
+    <br>
+    <label for="userInput">Número de Posiçoes no ranking: </label>
+    <input type="number" id="numeroDePosicoes">
+    <button onclick="logInput()">Log Input</button>
+
+<script>
+    function logInput() {
+        const populacaoTotal = document.getElementById('populacaoTotal').value;
+        const numeroDePosicoes = document.getElementById('numeroDePosicoes').value;
+        if (populacaoTotal == "" || numeroDePosicoes == "") {
+            console.log("Erro");
+        } else {
+            console.log(populacaoTotal, numeroDePosicoes);
+        }
+
+        let i = 1;
+        let total = 0;
+        while (i <= numeroDePosicoes) {
+            total += 1/i; 
+            i++;
+        }
+        i = 1;
+        const ranking = [];
+        let temp;
+        const primeiroLugar = Math.ceil(populacaoTotal/total);
+        while (i <= numeroDePosicoes) {
+            temp = Math.ceil((1/i)*primeiroLugar); 
+            ranking.push(temp);
+            i++;
+        }
+        console.log("Ranking: ", ranking);
+    }
+</script>
+</body>
+</html>
