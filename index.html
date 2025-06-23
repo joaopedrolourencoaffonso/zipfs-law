@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zipfs Law</title>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+        /* Center the table on the page */
+        table {
+            margin: 0 auto;               /* Horizontally centers the table */
+            border-collapse: collapse;    /* Optional: removes space between table cells */
+            width: 50%;                   /* Optional: adjust the table width */
+        }
+
+        /* Center the text within the table cells */
+        table, th, td {
+            text-align: center;           /* Centers text horizontally */
+        }
+
+        /* Optional: add some padding and borders for visual clarity */
+        th, td {
+            padding: 10px;                /* Adds space inside cells */
+            border: 1px solid #ddd;       /* Light border for the cells */
+        }
+
+        /* Optional: Add a background color to the header */
+        th {
+            background-color: #f4f4f4;    /* Light gray background for the header */
+        }
+
+        /* CSS code from above */
+        .container {
+            display: flex;               
+            justify-content: space-between;
+        }
+
+        .container div {
+            flex: 1;                     
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Zipf's law</h1>
+    <p>To learn more about Zipfs law <a href="https://en.wikipedia.org/wiki/Zipf's_law">see here</a></p>
+    <div class="container">
+        <div>
+            <h2>By Total Population</h2>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="userInput">Total Number of Elements: </label>
+            <input type="number" id="populacaoTotal">
+            <br>
+            <br>
+            <label for="userInput">Number of Positions in the Ranking: </label>
+            <input type="number" id="numeroDePosicoes">
+            <button onclick="computeTotalPopulation()">Compute</button>
+            <button onclick="cleanTotalPopulation()">Clean</button>
+            <br>
+            <br>
+        </div>
+        
+        <div>
+            <h2>By Population of Specific Position</h2>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="userInput">Desired position: </label>
+            <input type="number" id="position">
+            <br>
+            <br>
+            
+            <label for="userInput">Number of elements in the position: </label>
+            <input type="number" id="ammountPosition">
+            <br>
+            <br>
+            <label for="userInput">Number of Positions in the Ranking: </label>
+            <input type="number" id="numberOfPositions">
+            <button onclick="computePosition()">Compute</button>
+            <button onclick="cleanPosition()">Clean</button>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    <hr>
+    <div id="tableTotalPopulation">
+    </div>
+
+<script>
+    function computeTotalPopulation() {
+        const populacaoTotal = document.getElementById('populacaoTotal').value;
+        const numeroDePosicoes = document.getElementById('numeroDePosicoes').value;
+        if (populacaoTotal == "" || numeroDePosicoes == "") {
+            window.alert("Error: Empty fields in the form");
+            return;
+        }
+
+        let i = 1;
+        let total = 0;
+        while (i <= numeroDePosicoes) {
+            total += 1/i; 
+            i++;
+        }
+        i = 1;
+        const ranking = [];
+        let temp;
+        const primeiroLugar = Math.ceil(populacaoTotal/total);
+        while (i <= numeroDePosicoes) {
+            temp = Math.ceil((1/i)*primeiroLugar); 
+            ranking.push(temp);
+            i++;
+        }
+        console.log("Ranking: ", ranking);
+
+        writeTable(ranking);
+    }
+
+    function computePosition() {
+        const position = document.getElementById('position').value;
+        const ammountPosition = document.getElementById('ammountPosition').value;
+        const numberOfPositions = document.getElementById('numberOfPositions').value;
+
+        if (position == "" || ammountPosition == "" || numberOfPositions == "") {
+            window.alert("Error: Empty fields in the form");
+            return;
+        }
+
+        if (position - numberOfPositions > 0) {
+            window.alert("Error: Position not possible");
+            return;
+        }
+
+        let firstElement = ammountPosition * position;
+        const ranking = [];
+
+        i = 1;
+        let temp;
+        while (i <= numberOfPositions) {
+            temp = Math.ceil((1/i)*firstElement); 
+            ranking.push(temp);
+            i++;
+        }
+        console.log("Ranking: ", ranking);
+
+        writeTable(ranking);
+    }
+
+    function writeTable(data) {
+        // Get the div with id 'table'
+        const tableDiv = document.getElementById('tableTotalPopulation');
+
+        // Create the table and its contents
+        const table = document.createElement('table');
+        const header = table.createTHead();
+        const headerRow = header.insertRow();
+        
+        // Create the headers for the table
+        const rankingHeader = headerRow.insertCell(0);
+        rankingHeader.textContent = 'Ranking';
+        const amountHeader = headerRow.insertCell(1);
+        amountHeader.textContent = 'Amount';
+
+        // Create a body for the table
+        const tbody = table.createTBody();
+
+        // Loop through the data and insert rows into the table
+        i = 0;
+        data.forEach(item => {
+            const row = tbody.insertRow();
+            const rankingCell = row.insertCell(0);
+            rankingCell.textContent = i + 1;
+            const amountCell = row.insertCell(1);
+            amountCell.textContent = data[i];
+            i++;
+        });
+
+        // Clear the existing content of the div and add the table
+        tableDiv.innerHTML = '';  // Clear the current content
+        tableDiv.appendChild(table);  // Add the new table
+    }
+
+    function cleanTotalPopulation(){
+        // Get the div with id 'table'
+        const tableDiv = document.getElementById('tableTotalPopulation');
+
+        // Clear the contents of the div
+        tableDiv.innerHTML = '';  // Removes all child elements inside the div
+    }
+
+</script>
+</body>
+</html>
