@@ -51,6 +51,7 @@
     <p>To learn more about Zipfs law <a href="https://en.wikipedia.org/wiki/Zipf's_law">see here</a></p>
     <div class="container">
         <div>
+            <h2>By Total Population</h2>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <label for="userInput">Total Number of Elements: </label>
             <input type="number" id="populacaoTotal">
@@ -65,6 +66,7 @@
         </div>
         
         <div>
+            <h2>By Population of Specific Position</h2>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <label for="userInput">Desired position: </label>
             <input type="number" id="position">
@@ -127,7 +129,7 @@
             return;
         }
 
-        if (position > numberOfPositions) {
+        if (position - numberOfPositions > 0) {
             window.alert("Error: Position not possible");
             return;
         }
