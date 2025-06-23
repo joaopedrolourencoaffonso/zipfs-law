@@ -94,6 +94,7 @@
         const numeroDePosicoes = document.getElementById('numeroDePosicoes').value;
         if (populacaoTotal == "" || numeroDePosicoes == "") {
             window.alert("Error: Empty fields in the form");
+            return;
         }
 
         let i = 1;
@@ -123,6 +124,12 @@
 
         if (position == "" || ammountPosition == "" || numberOfPositions == "") {
             window.alert("Error: Empty fields in the form");
+            return;
+        }
+
+        if (position > numberOfPositions) {
+            window.alert("Error: Position not possible");
+            return;
         }
 
         let firstElement = ammountPosition * position;
